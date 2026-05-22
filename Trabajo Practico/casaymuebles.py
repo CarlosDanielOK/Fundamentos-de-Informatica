@@ -1,186 +1,249 @@
-# Introducción a la algoritmia - Trabajo práctico UADE - Casa y muebles
+# Variable generales y contadores
 
-total = 0
-precioNormal = 0
-descuento = 0
-recargo = 0
-costoEnvio = 7000
-costoInstalacion = 10000
-precioFinal = 0
-producto = ""
-materialDeConstruccion = ""
-envio = False
-instalacion = False
-efectivo = False
-credito = False
-pagoElegido = ""
+numeroFactura = 1
+recaudacionTotal = 0
+maximoRecaudado = 0
+contadorEnvio = 0
+contadorEfectivo = 0
 
-print("""Bienvenido a Casa & Muebles!
-Ingrese sus datos para regitrarlo en nuestra base de datos y así podrá empezar a comprar:""")
+# Se realizaron 3 procesos de venta
 
-nombre = input("Nombre y apellido: ").title()
-dni = input("DNI: ")
-direccion = input("Dirección: ").capitalize()
-telefono = input("Número de teléfono: ")
+for venta in range(3):
+    total = 0
+    precioNormal = 0
+    descuento = 0
+    recargo = 0
+    costoEnvio = 7000
+    costoInstalacion = 10000
+    producto = ""
+    materialDeConstruccion = ""
+    envio = False
+    instalacion = False
+    efectivo = False
+    credito = False
+    pagoElegido = ""
 
-print("""
+    # Solicita los datos del cliente
+
+    print("""
+Bienvenido a Casa & Muebles!
+Ingrese sus datos para registrarlo en nuestra base de datos y así podrá empezar a comprar:
+""")
+
+    nombre = input("Nombre y apellido: ").title()
+    confirmacion = input(f"Tu nombre es {nombre}. ¿Es correcto? (SI/NO): ").upper()
+    while confirmacion != "SI":
+        nombre = input("Nombre y apellido: ").title()
+        confirmacion = input(f"Tu nombre es {nombre}. ¿Es correcto? (SI/NO): ").upper()
+
+    edad = int(input("Ingrese su edad: "))
+    while edad < 18:
+        print("ERROR. Debe ser mayor de 18 años")
+        edad = int(input("Ingrese su edad: "))
+
+    confirmacion = input(f"Tu edad es {edad}. ¿Es correcta? (SI/NO): ").upper()
+    while confirmacion != "SI":
+        edad = int(input("Ingrese su edad: "))
+        while edad < 18:
+            print("ERROR. Debe ser mayor de 18 años")
+            edad = int(input("Ingrese su edad: "))
+        confirmacion = input(f"Tu edad es {edad}. ¿Es correcta? (SI/NO): ").upper()
+
+    # Validacion del dni
+
+    dni = input("DNI: ")
+    while len(dni) != 8:  # Poner limite de 8
+        print("ERROR. El DNI debe tener 8 números.")
+        dni = input("DNI: ")
+
+    confirmacion = input(f"Tu DNI es {dni}. ¿Es correcto? (SI/NO): ").upper()
+    while confirmacion != "SI":
+        dni = input("DNI: ")
+
+        while len(dni) != 8:
+            print("ERROR. El DNI debe tener 8 números.")
+            dni = input("DNI: ")
+        confirmacion = input(f"Tu DNI es {dni}. ¿Es correcto? (SI/NO): ").upper()
+
+    direccion = input("Ingrese su direccion: ").capitalize()
+    while len(direccion) < 5:
+        print("ERROR. La dirección debe tener mínimo 5 caracteres.")
+        direccion = input("Dirección: ").capitalize()
+
+    confirmacion = input(
+        f"Tu dirección es {direccion}. ¿Es correcta? (SI/NO): "
+    ).upper()
+    while confirmacion != "SI":
+        direccion = input("Dirección: ").capitalize()
+        while len(direccion) < 5:
+            print("ERROR. La dirección debe tener mínimo 5 caracteres.")
+            direccion = input("Dirección: ").capitalize()
+        confirmacion = input(
+            f"Tu dirección es {direccion}. ¿Es correcta? (SI/NO): "
+        ).upper()
+
+    telefono = input("Número de teléfono: ")
+    while len(telefono) < 8:
+        print("ERROR. Número inválido.")
+        telefono = input("Número de teléfono: ")
+
+    confirmacion = input(
+        f"Tu número de teléfono es {telefono}. ¿Es correcto? (SI/NO): "
+    ).upper()
+    while confirmacion != "SI":
+        telefono = input("Número de teléfono: ")
+        while len(telefono) < 8:
+            print("ERROR. El número debe tener mas de 8 números.")
+            telefono = input("Número de teléfono: ")
+
+        confirmacion = input(
+            f"Tu número de teléfono es {telefono}. ¿Es correcto? (SI/NO): "
+        ).upper()
+
+    # Productos disponibles
+
+    print("""
 Registrando...
 Registro exitoso.
-   
+
 A continuación te muestro todos nuestros productos y servicios disponibles:
 1. SILLAS
 2. MESAS
-3. ROPEROS  
+3. ROPEROS
 """)
 
-# PIDE Y VALIDAD LA OPCIÓN CORRECTA
-opcion = int(input("Elige una opción (1, 2 o 3): "))
-while opcion != 1 and opcion != 2 and opcion != 3: # si opcion no es ni 1 ni 2 ni 3
-    print("ERROR. Vuelva a intentar.")
-    opcion = int(input("Elige una opción (1, 2 o 3): ")) # vuelve a pedir la opcion
-
-# PROCESO DE COMPRA
-# SILLAS
-if opcion == 1:
-    # guardo el producto elegido para mostrarlo en la factura
-    producto = "SILLAS"
-
-    # pide y valida tipo de material de construcción
-    print("\nMATERIALES DE CONSTRUCCIÓN DE SILLAS Y SUS PRECIOS:")
-    print("1. Plástico = $30.000")
-    print("2. Metal = $40.000")
-    print("3. Madera = $50.000\n")
-
-    material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
-    while material != 1 and material != 2 and material != 3:
+    # PIDE Y VALIDA LA OPCIÓN CORRECTA
+    opcion = int(input("Elige una opción (1, 2 o 3): "))
+    while opcion != 1 and opcion != 2 and opcion != 3:
         print("ERROR. Vuelva a intentar.")
+        opcion = int(input("Elige una opción (1, 2 o 3): "))
+
+    # SILLAS
+    if opcion == 1:
+        producto = "SILLAS"
+
+        print("\nMATERIALES DE CONSTRUCCIÓN DE SILLAS Y SUS PRECIOS:")
+        print("1. Plástico = $30.000")
+        print("2. Metal = $40.000")
+        print("3. Madera = $50.000\n")
+
         material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
-    
-    # pide y valida la cantidad a comprar
-    cantidad = int(input("¿Cuantas sillas desea comprar?: "))
-    while cantidad < 0: # si es un numero negativo vuelve a pedir
-        print("ERROR. Vuelva a intentar.")
-        cantidad = int(input("¿Cuantas sillas desea comprar?: "))
+        while material != 1 and material != 2 and material != 3:
+            print("ERROR. Vuelva a intentar.")
+            material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
 
-    # calcula el precio normal sin descuentos
-    if material == 1:
-        # calcula el precio
-        precioNormal = cantidad * 30000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Plástico"
-    elif material == 2:
-        # calcula el precio
-        precioNormal = cantidad * 40000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Metal"
-    if material == 3:
-        # calcula el precio
-        precioNormal = cantidad * 50000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Madera"
+        cantidad = int(input("¿Cuántas sillas desea comprar?: "))
+        while cantidad <= 0:
+            print("ERROR. Vuelva a intentar.")
+            cantidad = int(input("¿Cuántas sillas desea comprar?: "))
 
-# MESAS
-elif opcion == 2:
-    # guardo el producto elegido para mostrarlo en la factura
-    producto = "MESAS"
+        if material == 1:
+            precioNormal = cantidad * 30000
+            materialDeConstruccion = "Plástico"
 
-    # pide y valida tipo de material de construcción
-    print("\nMATERIALES DE CONSTRUCCIÓN DE MESAS Y SUS PRECIOS:")
-    print("1. Melamina = $80.000 (PROMOCIÓN 10% DE DESCUENTO)")
-    print("2. Roble = $90.000")
-    print("3. Mármol = $100.000")
+        elif material == 2:
+            precioNormal = cantidad * 40000
+            materialDeConstruccion = "Metal"
 
-    material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
-    while material != 1 and material != 2 and material != 3:
-        print("ERROR. Vuelva a intentar.")
+        elif material == 3:
+            precioNormal = cantidad * 50000
+            materialDeConstruccion = "Madera"
+
+    # MESAS
+    elif opcion == 2:
+        producto = "MESAS"
+
+        print("\nMATERIALES DE CONSTRUCCIÓN DE MESAS Y SUS PRECIOS:")
+        print("1. Melamina = $80.000 (PROMOCIÓN 10% DE DESCUENTO)")
+        print("2. Roble = $90.000")
+        print("3. Mármol = $100.000")
+
         material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
-    
-    # pide y valida la cantidad a comprar
-    cantidad = int(input("¿Cuantas mesas desea comprar?: "))
-    while cantidad < 0: # si es un numero negativo vuelve a pedir
-        print("ERROR. Vuelva a intentar.")
-        cantidad = int(input("¿Cuantas mesas desea comprar?: "))
+        while material != 1 and material != 2 and material != 3:
+            print("ERROR. Vuelva a intentar.")
+            material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
 
-    # calcula el precio normal sin descuentos
-    if material == 1:
-        # calcula el precio
-        precioNormal = cantidad * 80000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Melamina"
-    elif material == 2:
-        # calcula el precio
-        precioNormal = cantidad * 90000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Roble"
-    if material == 3:
-        # calcula el precio
-        precioNormal = cantidad * 100000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Mármol"
+        cantidad = int(input("¿Cuántas mesas desea comprar?: "))
+        while cantidad <= 0:
+            print("ERROR. Vuelva a intentar.")
+            cantidad = int(input("¿Cuántas mesas desea comprar?: "))
 
-# ROPEROS
-if opcion == 3:
-    # guardo el producto elegido para mostrarlo en la factura
-    producto = "ROPEROS"
+        if material == 1:
+            precioNormal = cantidad * 80000 * 0.90
+            materialDeConstruccion = "Melamina"
 
-    # pide y valida tipo de material de construcción
-    print("\nMATERIALES DE CONSTRUCCIÓN DE ROPEROS Y SUS PRECIOS:")
-    print("1. Melamina = $200.000 (PROMOCIÓN 10% DE DESCUENTO)")
-    print("2. Plywood = $220.000")
-    print("3. Roble = $250.000")
+        elif material == 2:
+            precioNormal = cantidad * 90000
+            materialDeConstruccion = "Roble"
 
-    material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
-    while material != 1 and material != 2 and material != 3:
-        print("ERROR. Vuelva a intentar.")
+        elif material == 3:
+            precioNormal = cantidad * 100000
+            materialDeConstruccion = "Mármol"
+
+    # ROPEROS
+    elif opcion == 3:
+        producto = "ROPEROS"
+
+        print("\nMATERIALES DE CONSTRUCCIÓN DE ROPEROS Y SUS PRECIOS:")
+        print("1. Melamina = $200.000 (PROMOCIÓN 10% DE DESCUENTO)")
+        print("2. Plywood = $220.000")
+        print("3. Roble = $250.000")
+
         material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
-    
-    # pide y valida la cantidad a comprar
-    cantidad = int(input("¿Cuantos roperos desea comprar?: "))
-    while cantidad < 0: # si es un numero negativo vuelve a pedir
-        print("ERROR. Vuelva a intentar.")
-        cantidad = int(input("¿Cuantos roperos desea comprar?: "))
+        while material != 1 and material != 2 and material != 3:
+            print("ERROR. Vuelva a intentar.")
+            material = int(input("¿Cuál desea comprar? (1, 2 o 3): "))
 
-    # calcula el precio normal sin descuentos
-    if material == 1:
-        # calcula el precio
-        precioNormal = cantidad * 200000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Melamina"
-    elif material == 2:
-        # calcula el precio
-        precioNormal = cantidad * 220000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Plywood"
-    if material == 3:
-        # calcula el precio
-        precioNormal = cantidad * 250000
-        # guarda el material de construcción para luego mostrarlo en la factura
-        materialDeConstruccion = "Roble"
+        cantidad = int(input("¿Cuántos roperos desea comprar?: "))
+        while cantidad <= 0:
+            print("ERROR. Vuelva a intentar.")
+            cantidad = int(input("¿Cuántos roperos desea comprar?: "))
 
-# Pregunta si quiere contratar el envio o no y valida la respuesta
-envio = input("¿Desea que lo enviemos a su dirección? (SI/NO): ").upper()
-while envio != "SI" and envio != "NO":
+        if material == 1:
+            precioNormal = cantidad * 200000 * 0.90
+            materialDeConstruccion = "Melamina"
+
+        elif material == 2:
+            precioNormal = cantidad * 220000
+            materialDeConstruccion = "Plywood"
+
+        elif material == 3:
+            precioNormal = cantidad * 250000
+            materialDeConstruccion = "Roble"
+
+    total = precioNormal
+
+    # ENVÍO
     envio = input("¿Desea que lo enviemos a su dirección? (SI/NO): ").upper()
+    while envio != "SI" and envio != "NO":
+        envio = input("¿Desea que lo enviemos a su dirección? (SI/NO): ").upper()
+    if envio == "SI":
+        total = total + costoEnvio
+        envio = True
+        contadorEnvio = contadorEnvio + 1
 
-if envio == "SI":
-    total = precioNormal + costoEnvio
-    envio = True
-else:
-    envio = False
+    else:
+        envio = False
 
-# Pregunta si quiere contratar nuestro servicio de instalacion o no y valida la respuesta
-envio = input("¿Desea contratar el servicio de instalación? (SI/NO): ").upper()
-while envio != "SI" and envio != "NO":
-    envio = input("¿Desea contratar el servicio de instalación? (SI/NO): ").upper()
+    # INSTALACIÓN
+    instalacion = input(
+        "¿Desea contratar el servicio de instalación? (SI/NO): "
+    ).upper()
 
-if envio == "SI":
-    total = total + costoInstalacion
-    instalacion = True
-else:
-    instalacion = False
+    while instalacion != "SI" and instalacion != "NO":
+        instalacion = input(
+            "¿Desea contratar el servicio de instalación? (SI/NO): "
+        ).upper()
 
-# MEDIOS DE PAGO
-print("""
+    if instalacion == "SI":
+        total = total + costoInstalacion
+        instalacion = True
+
+    else:
+        instalacion = False
+
+    # MEDIOS DE PAGO
+    print("""
 MEDIOS DE PAGO - Conozca nuestras promociones y descuentos:
 1. EFECTIVO (15% DE DESCUENTO)
 2. TARJETA DE CRÉDITO (10% DE RECARGO)
@@ -188,66 +251,99 @@ MEDIOS DE PAGO - Conozca nuestras promociones y descuentos:
 4. TRANSFERENCIA
 """)
 
-# pide y verifica un medio de pago correcto
-medioDePago = int(input("Elija su medio de pago (1, 2, 3 o 4): "))
-while medioDePago != 1 and medioDePago != 2 and medioDePago != 3 and medioDePago != 4:
-    print("ERROR. Vuelva a intentar.")
     medioDePago = int(input("Elija su medio de pago (1, 2, 3 o 4): "))
 
-# verifica la opcion elegida y aplica descuentos segun corresponda
-if medioDePago == 1:
-    descuento = total * 0.15 # calcula el 15% del total
-    total = total - descuento # aplica el 15% de descuento al total
-    efectivo = True
-    pagoElegido = "EFECTIVO (15% DE DESCUENTO)"
-elif medioDePago == 2:
-    recargo = total * 0.10 # calcula el 10% del total
-    total = total + recargo # aplica el 10% de recargo
-    credito = True
-    pagoElegido = "TARJETA DE CRÉDITO (10% DE RECARGO)"
-elif medioDePago == 3:
-    pagoElegido = "TARJETA DE DÉBITO"
-elif medioDePago == 4:
-    pagoElegido = "TRANSFERENCIA"
+    while (
+        medioDePago != 1 and medioDePago != 2 and medioDePago != 3 and medioDePago != 4
+    ):
+        print("ERROR. Vuelva a intentar.")
+        medioDePago = int(input("Elija su medio de pago (1, 2, 3 o 4): "))
 
+    if medioDePago == 1:
+        descuento = round(total * 0.15, 2)
+        total = total - descuento
+        efectivo = True
+        pagoElegido = "EFECTIVO (15% DE DESCUENTO)"
+        contadorEfectivo = contadorEfectivo + 1
 
-# IMPRIME LA FACTURA FINAL DE COMPRA
-print("""
-FACTURA FINAL - 123456789890
+    elif medioDePago == 2:
+        recargo = round(total * 0.10, 2)
+        total = total + recargo
+        credito = True
+        pagoElegido = "TARJETA DE CRÉDITO (10% DE RECARGO)"
 
+    elif medioDePago == 3:
+        pagoElegido = "TARJETA DE DÉBITO"
+
+    elif medioDePago == 4:
+        pagoElegido = "TRANSFERENCIA"
+
+    # ACUMULADORES Y MÁXIMO
+    recaudacionTotal = recaudacionTotal + total
+
+    if total > maximoRecaudado:
+        maximoRecaudado = total
+
+    # FACTURA
+    print("""
+FACTURA FINAL
+""")
+
+    print("Número de factura:", numeroFactura)
+
+    print("""
 DATOS DEL NEGOCIO
 Empresa: Casa & Muebles
 Dirección: Palermo, Guatemala 5999
 CUIT: 30-61025233-4
 MAIL: muebles@gmail.com
 Teléfono: 1159536085
+""")
 
-DATOS DEL CLIENTE""")
+    print("DATOS DEL CLIENTE")
+    print("Nombre y apellido:", nombre)
+    print("DNI:", dni)
+    print("Dirección:", direccion)
+    print("Número de teléfono:", telefono)
 
-print("Nombre y apellido:", nombre)
-print("DNI:", dni)
-print("Dirección:", direccion)
-print("Número de teléfono:", telefono)
+    print("\nDETALLES DE COMPRA")
+    print("Producto:", producto)
+    print("Material de construcción:", materialDeConstruccion)
+    print("Cantidad:", cantidad)
 
-print("\nDETALLES DE COMPRA")
-print("Producto:", producto)
-print("Material de construcción:", materialDeConstruccion)
-print("Cantidad:", cantidad)
+    if envio:
+        print("Servicio de envío: $", costoEnvio)
 
-# envio e instalacion son de tipo bool por lo tanto evalua si es True o False
-if envio:
-    print("Servicio de envio: $", costoEnvio)
-if instalacion:
-    print("Servicio de instalación: $", costoInstalacion)
+    if instalacion:
+        print("Servicio de instalación: $", costoInstalacion)
 
-print("Medio de pago:", pagoElegido)
+    print("Medio de pago:", pagoElegido)
 
-# evalua si paga selecciono pagar en efectivo o credito para mostrar sus valores correspondientes
-if efectivo:
-    print("Precio sin descuentos: $", precioNormal)
-    print("Descuento por pagar en efectivo: $", descuento)
-if credito:
-    print("Precio sin descuentos: $", precioNormal)
-    print("Recargo por pagar con tarjeta de crédito: $", recargo)
+    if efectivo:
+        print("Precio sin descuentos: $", precioNormal)
+        print("Descuento por pagar en efectivo: $", descuento)
 
-print("\nTOTAL: $", total)
+    if credito:
+        print("Precio sin descuentos: $", precioNormal)
+        print("Recargo por pagar con tarjeta de crédito: $", recargo)
+
+    print("\nTOTAL: $", round(total, 2))
+
+    numeroFactura = numeroFactura + 1
+
+
+promedioVentas = recaudacionTotal / 3
+porcentajeEnvio = (contadorEnvio * 100) / 3
+porcentajeEfectivo = (contadorEfectivo * 100) / 3
+
+print("""
+
+RESULTADO FINAL
+
+""")
+
+print("Total recaudado: $", round(recaudacionTotal, 2))
+print("Máximo recaudado en una venta: $", round(maximoRecaudado, 2))
+print("Promedio de ventas: $", round(promedioVentas, 2))
+print("Porcentaje de clientes con envío:", round(porcentajeEnvio, 2), "%")
+print("Porcentaje de pagos en efectivo:", round(porcentajeEfectivo, 2), "%")
