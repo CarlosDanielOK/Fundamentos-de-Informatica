@@ -1,13 +1,11 @@
-def burbujeo(lista):
+def bubble_sort(lista):
     for i in range(len(lista)):
         for j in range(len(lista) - i - 1):
             if lista[j] > lista[j + 1]:
-                aux = lista[j + 1]
-                lista[j + 1] = lista[j]
-                lista[j] = aux
+                lista[j], lista[j + 1] = lista[j + 1], lista[j]
     return lista
 
 
 numeros = [3, 1, 5, 4, 2]
 
-print(burbujeo(numeros))
+print(bubble_sort(numeros))
