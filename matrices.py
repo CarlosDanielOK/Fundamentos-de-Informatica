@@ -10,9 +10,9 @@ def mostrarMatriz(matriz):
         print(matriz[i])
 
 
-codigos = [100, 101, 102]
-herramientas = ["martillo", "amoladora", "destornillador"]
-precios = [68000, 230000, 25000]
+codigos = [100, 101, 102, 1]
+herramientas = ["martillo", "amoladora", "destornillador", "tornillo"]
+precios = [68000, 230000, 25000, 30000]
 matriz = crearMatriz(codigos, herramientas, precios)
 mostrarMatriz(matriz)
 print(matriz[2][1])
