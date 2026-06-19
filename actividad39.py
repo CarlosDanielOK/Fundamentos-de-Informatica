@@ -26,8 +26,12 @@ def mostrar_matriz(matriz):
         print(matriz[i])
 
 """"""
-def mostrar_alto(matriz):
+def mostrar_alto(lista):
     maximo = -9999
+    for i in range(len(lista)):
+        if lista[i] > maximo:
+            maximo = i
+    return maximo # retorna la posicion del numero mas alto    
 
 
 camiseta = [10, 23, 7, 22, 13]
@@ -37,4 +41,5 @@ posicion = ["delantero", "arquero", "centrocampista", "delantero", "defensor"]
 print(bubble_sort(camiseta, jugador, posicion))
 matriz = crear_matriz(camiseta, jugador, posicion)
 mostrar_matriz(matriz)
-mostrar_alto(matriz)
+pos = mostrar_alto(camiseta)
+print("El numero de camiseta mas alto lo tiene:", matriz[pos])
