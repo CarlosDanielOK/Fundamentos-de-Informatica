@@ -31,23 +31,27 @@ Ingrese sus datos para registrarlo en nuestra base de datos y así podrá empeza
 """)
 
     nombre = input("Nombre y apellido: ").title()
-    confirmacion = input(f"Tu nombre es {nombre}. ¿Es correcto? (SI/NO): ").upper()
+    confirmacion = input("Tu nombre es", nombre, "¿Es correcto? (SI/NO): ").upper()
     while confirmacion != "SI":
         nombre = input("Nombre y apellido: ").title()
-        confirmacion = input(f"Tu nombre es {nombre}. ¿Es correcto? (SI/NO): ").upper()
+        confirmacion = input("Tu nombre es", nombre, "¿Es correcto? (SI/NO): ").upper()
 
     edad = int(input("Ingrese su edad: "))
     while edad < 18:
-        print("ERROR. Debe ser mayor de 18 años")
+        print(
+            "ERROR. Debe ser mayor de 18 años. Ingrese la edad de un adulto responsable."
+        )
         edad = int(input("Ingrese su edad: "))
 
-    confirmacion = input(f"Tu edad es {edad}. ¿Es correcta? (SI/NO): ").upper()
+    confirmacion = input("Tu edad es", edad, "¿Es correcta? (SI/NO): ").upper()
     while confirmacion != "SI":
         edad = int(input("Ingrese su edad: "))
         while edad < 18:
-            print("ERROR. Debe ser mayor de 18 años")
+            print(
+                "ERROR. Debe ser mayor de 18 años. Ingrese la edad de un adulto responsable."
+            )
             edad = int(input("Ingrese su edad: "))
-        confirmacion = input(f"Tu edad es {edad}. ¿Es correcta? (SI/NO): ").upper()
+        confirmacion = input("Tu edad es", edad, "¿Es correcta? (SI/NO): ").upper()
 
     # Validacion del dni
 
@@ -56,14 +60,14 @@ Ingrese sus datos para registrarlo en nuestra base de datos y así podrá empeza
         print("ERROR. El DNI debe tener 8 números.")
         dni = input("DNI: ")
 
-    confirmacion = input(f"Tu DNI es {dni}. ¿Es correcto? (SI/NO): ").upper()
+    confirmacion = input("Tu DNI es", dni, "¿Es correcto? (SI/NO): ").upper()
     while confirmacion != "SI":
         dni = input("DNI: ")
 
         while len(dni) != 8:
             print("ERROR. El DNI debe tener 8 números.")
             dni = input("DNI: ")
-        confirmacion = input(f"Tu DNI es {dni}. ¿Es correcto? (SI/NO): ").upper()
+        confirmacion = input("Tu DNI es", dni, "¿Es correcto? (SI/NO): ").upper()
 
     direccion = input("Ingrese su direccion: ").capitalize()
     while len(direccion) < 5:
@@ -71,7 +75,7 @@ Ingrese sus datos para registrarlo en nuestra base de datos y así podrá empeza
         direccion = input("Dirección: ").capitalize()
 
     confirmacion = input(
-        f"Tu dirección es {direccion}. ¿Es correcta? (SI/NO): "
+        "Tu dirección es", direccion, "¿Es correcta? (SI/NO): "
     ).upper()
     while confirmacion != "SI":
         direccion = input("Dirección: ").capitalize()
@@ -79,7 +83,7 @@ Ingrese sus datos para registrarlo en nuestra base de datos y así podrá empeza
             print("ERROR. La dirección debe tener mínimo 5 caracteres.")
             direccion = input("Dirección: ").capitalize()
         confirmacion = input(
-            f"Tu dirección es {direccion}. ¿Es correcta? (SI/NO): "
+            "Tu dirección es", direccion, "¿Es correcta? (SI/NO): "
         ).upper()
 
     telefono = input("Número de teléfono: ")
@@ -88,7 +92,7 @@ Ingrese sus datos para registrarlo en nuestra base de datos y así podrá empeza
         telefono = input("Número de teléfono: ")
 
     confirmacion = input(
-        f"Tu número de teléfono es {telefono}. ¿Es correcto? (SI/NO): "
+        "Tu número de teléfono es", telefono, "¿Es correcto? (SI/NO): "
     ).upper()
     while confirmacion != "SI":
         telefono = input("Número de teléfono: ")
@@ -97,7 +101,7 @@ Ingrese sus datos para registrarlo en nuestra base de datos y así podrá empeza
             telefono = input("Número de teléfono: ")
 
         confirmacion = input(
-            f"Tu número de teléfono es {telefono}. ¿Es correcto? (SI/NO): "
+            "Tu número de teléfono es", telefono, "¿Es correcto? (SI/NO): "
         ).upper()
 
     # Productos disponibles
@@ -154,7 +158,7 @@ A continuación te muestro todos nuestros productos y servicios disponibles:
         producto = "MESAS"
 
         print("\nMATERIALES DE CONSTRUCCIÓN DE MESAS Y SUS PRECIOS:")
-        print("1. Melamina = $80.000 (PROMOCIÓN 10% DE DESCUENTO)")
+        print("1. Melamina = $80.000")
         print("2. Roble = $90.000")
         print("3. Mármol = $100.000")
 
@@ -169,7 +173,7 @@ A continuación te muestro todos nuestros productos y servicios disponibles:
             cantidad = int(input("¿Cuántas mesas desea comprar?: "))
 
         if material == 1:
-            precioNormal = cantidad * 80000 * 0.90
+            precioNormal = cantidad * 80000
             materialDeConstruccion = "Melamina"
 
         elif material == 2:
@@ -185,7 +189,7 @@ A continuación te muestro todos nuestros productos y servicios disponibles:
         producto = "ROPEROS"
 
         print("\nMATERIALES DE CONSTRUCCIÓN DE ROPEROS Y SUS PRECIOS:")
-        print("1. Melamina = $200.000 (PROMOCIÓN 10% DE DESCUENTO)")
+        print("1. Melamina = $200.000")
         print("2. Plywood = $220.000")
         print("3. Roble = $250.000")
 
@@ -200,7 +204,7 @@ A continuación te muestro todos nuestros productos y servicios disponibles:
             cantidad = int(input("¿Cuántos roperos desea comprar?: "))
 
         if material == 1:
-            precioNormal = cantidad * 200000 * 0.90
+            precioNormal = cantidad * 200000
             materialDeConstruccion = "Melamina"
 
         elif material == 2:
@@ -214,6 +218,7 @@ A continuación te muestro todos nuestros productos y servicios disponibles:
     total = precioNormal
 
     # ENVÍO
+    print("\nSERVICIO DE ENVÍO - Costo: $7.000")
     envio = input("¿Desea que lo enviemos a su dirección? (SI/NO): ").upper()
     while envio != "SI" and envio != "NO":
         envio = input("¿Desea que lo enviemos a su dirección? (SI/NO): ").upper()
@@ -225,7 +230,25 @@ A continuación te muestro todos nuestros productos y servicios disponibles:
     else:
         envio = False
 
+    direccion = input("Ingrese su direccion: ").capitalize()
+    while len(direccion) < 5:
+        print("ERROR. La dirección debe tener mínimo 5 caracteres.")
+        direccion = input("Ingrese su direccion: ").capitalize()
+
+    confirmacion = input(
+        "Tu dirección es", direccion, "¿Es correcta? (SI/NO): "
+    ).upper()
+    while confirmacion != "SI":
+        direccion = input("Dirección: ").capitalize()
+        while len(direccion) < 5:
+            print("ERROR. La dirección debe tener mínimo 5 caracteres.")
+            direccion = input("Dirección: ").capitalize()
+        confirmacion = input(
+            "Tu dirección es", direccion, "¿Es correcta? (SI/NO): "
+        ).upper()
+
     # INSTALACIÓN
+    print("\nSERVICIO DE INSTALACIÓN - Costo: $10.000")
     instalacion = input(
         "¿Desea contratar el servicio de instalación? (SI/NO): "
     ).upper()
