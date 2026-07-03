@@ -1,3 +1,9 @@
+# GRUPO N°: 03
+# INTEGRANTES:
+# - Candela Nuñez
+# - Carlos Lazo
+# - Lizbeth Alejo
+
 import random
 
 productos = ["Sillas", "Mesas", "Roperos"]
@@ -14,9 +20,13 @@ ropero_materiales = ["Melamina", "Plywood", "Roble"]
 ropero_precio = [200000, 220000, 250000]
 ropero_cantidad = [0, 0, 0]
 
+servicio_etiqueta = ["Envio: ", "Instalación: "]
+servicio_precio = [7000, 10000]
 precio_envio = 7000
 precio_instalacion = 10000
 
+etiquetas_negocio = ["Nombre: ", "Dirección: ", "CUIT: ", "Email: ", "Teléfono: "]
+datos_negocio = ["Casa & Muebles", "Palermo, Guatemala 5999" ,"30-61025233-4", "muebles@gmail.com", "1159536085"]
 
 # Listas principales
 facturas = []
@@ -41,7 +51,10 @@ def pedir_datos_cliente():
     telefono = validar_telefono()
     direccion = validar_direccion()
 
-    return nombre, edad, dni, telefono, direccion
+    etiquetas_cliente = ["Nombre: ", "Edad: ", "DNI: ", "Teléfono: ", "Dirección: "]
+    datos_cliente = [nombre, edad, dni, telefono, direccion]
+
+    return etiquetas_cliente, datos_cliente
 
 
 # VALIDACIONES DE DATOS DEL CLIENTE
@@ -59,25 +72,19 @@ def validar_nombre():
 
 def validar_edad():
     edad = int(input("Ingrese su edad: "))
-    while edad < 18:
-        print(
-            "Lo sentimos. La edad mínima permitida para realizar compras es de 18 años."
-        )
+    while edad < 0 or edad > 110:
+        print("Error. Edad no valida.")
         edad = int(input("Ingrese su edad: "))
 
     confirmar = input("Tu edad es " + str(edad) + ". ¿Es correcto? (SI/NO): ").upper()
     while confirmar != "SI":
         edad = int(input("Ingrese su edad: "))
-        while edad < 18:
-            print(
-                "Lo sentimos. La edad mínima permitida para realizar compras es de 18 años."
-            )
+        while edad < 0 or edad > 120:
+            print("Error. Edad no valida.")
             edad = int(input("Ingrese su edad: "))
-        confirmar = input(
-            "Tu edad es " + str(edad) + ". ¿Es correcto? (SI/NO): "
-        ).upper()
+            confirmar = input("Tu edad es " + str(edad) + ". ¿Es correcto? (SI/NO): ").upper()
 
-    return edad
+    return str(edad)
 
 
 def validar_dni():
@@ -142,24 +149,25 @@ def generar_numero_factura():
     return lista
 
 def servicios(subtotal):
+    servicios_contratados = ""
     cantidad_envios = 0
     cantidad_instalaciones = 0
 
     print("---PRECIOS DE SERVICIOS---")
-    print("Disponemos de servicio de Envío a domicilio por un valor fijo de: $", precio_envio)
-    print("Disponemos de servicio de Instalación premium por un valor fijo de: $", precio_instalacion)
 
-    quiere_envio = input("¿Desea contratar el servicio de envío? (SI/NO): ").upper()
+    quiere_envio = input("¿Desea contratar el servicio de envío ($" + str(precio_envio) + ")? (SI/NO): ").upper()
     if quiere_envio == "SI":
         subtotal = subtotal + precio_envio
         cantidad_envios = cantidad_envios + 1
+        servicios_contratados = servicios_contratados + "Servicio de envío: $" + str(precio_envio)
     
-    quiere_instalacion = input("¿Desea contratar el servicio de instalación? (SI/NO): ").upper()
+    quiere_instalacion = input("¿Desea contratar el servicio de instalación ($" + str(precio_instalacion) + ") (SI/NO): ").upper()
     if quiere_instalacion == "SI":
         subtotal = subtotal + precio_instalacion
         cantidad_instalaciones = cantidad_instalaciones + 1
+        servicios_contratados = servicios_contratados + "\nServicio de instalación: $" + str(precio_instalacion)
     
-    return subtotal, cantidad_envios, cantidad_instalaciones
+    return servicios_contratados, subtotal, cantidad_envios, cantidad_instalaciones
 
 def procesar_compra():
     comprar_mas = "SI"
@@ -196,13 +204,13 @@ def procesar_compra():
             # AGREGO AL CARRITO NOMBRE DEL PRODUCTO, MATERIAL, PRECIO Y CANTIDAD
             if material == 1:
                 silla_cantidad[0] = cantidad
-                carrito.append([productos[0], silla_materiales[0], silla_precio[0], silla_cantidad[0]])
+                carrito.append([productos[0], silla_materiales[0], silla_cantidad[0], silla_precio[0]])
             elif material == 2:
                 silla_cantidad[1] = cantidad
-                carrito.append([productos[0], silla_materiales[1], silla_precio[1], silla_cantidad[1]])
+                carrito.append([productos[0], silla_materiales[1], silla_cantidad[1], silla_precio[1]])
             elif material == 3:
                 silla_cantidad[2] = cantidad
-                carrito.append([productos[0], silla_materiales[2], silla_precio[2], silla_cantidad[2]])
+                carrito.append([productos[0], silla_materiales[2], silla_cantidad[2], silla_precio[2]])
 
         elif opcion == 2:
             print("MATERIALES DE MESAS:")
@@ -222,13 +230,13 @@ def procesar_compra():
             # AGREGO AL CARRITO NOMBRE DEL PRODUCTO, MATERIAL, PRECIO Y CANTIDAD
             if material == 1:
                 mesa_cantidad[0] = cantidad
-                carrito.append([productos[1], mesa_materiales[0], mesa_precio[0], mesa_cantidad[0]])
+                carrito.append([productos[1], mesa_materiales[0], mesa_cantidad[0], mesa_precio[0]])
             elif material == 2:
                 mesa_cantidad[1] = cantidad
-                carrito.append([productos[1], mesa_materiales[1], mesa_precio[1], mesa_cantidad[1]])
+                carrito.append([productos[1], mesa_materiales[1], mesa_cantidad[1], mesa_precio[1]])
             elif material == 3:
                 mesa_cantidad[2] = cantidad
-                carrito.append([productos[1], mesa_materiales[2], mesa_precio[2], mesa_cantidad[2]])
+                carrito.append([productos[1], mesa_materiales[2], mesa_cantidad[2], mesa_precio[2]])
 
         elif opcion == 3:
             print("MATERIALES DE ROPEROS:")
@@ -248,13 +256,13 @@ def procesar_compra():
             # AGREGO AL CARRITO NOMBRE DEL PRODUCTO, MATERIAL, PRECIO Y CANTIDAD
             if material == 1:
                 ropero_cantidad[0] = cantidad
-                carrito.append([productos[2], ropero_materiales[0], ropero_precio[0], ropero_cantidad[0]])
+                carrito.append([productos[2], ropero_materiales[0], ropero_cantidad[0], ropero_precio[0]])
             elif material == 2:
                 ropero_cantidad[1] = cantidad
-                carrito.append([productos[2], ropero_materiales[1], ropero_precio[1], ropero_cantidad[1]])
+                carrito.append([productos[2], ropero_materiales[1], ropero_cantidad[1], ropero_precio[1]])
             elif material == 3:
                 ropero_cantidad[2] = cantidad
-                carrito.append([productos[2], ropero_materiales[2], ropero_precio[2], ropero_cantidad[2]])
+                carrito.append([productos[2], ropero_materiales[2], ropero_cantidad[2], ropero_precio[2]])
                 
         comprar_mas = input("¿Desea agregar otro tipo de producto a esta misma compra? (SI/NO): ").upper()
     
@@ -266,105 +274,57 @@ def procesar_compra():
 
     return subtotal, carrito
 
+def generar_factura(venta, numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, matriz):
+    print("---FACTURA FINAL---")
+    print("Número de factura:", numero_factura[venta])
+
+    print("DATOS DEL NEGOCIO")
+    for i in range(len(datos_negocio)):
+        print(etiquetas_negocio[i] + datos_negocio[i])
+    
+    print("DATOS DEL CLIENTE")
+    for i in range(len(datos_cliente)):
+        print(etiquetas_cliente[i] + datos_cliente[i])
+
+    print("PRODUCTOS COMPRADOS")
+    print("Producto | Material | Cantidad | Precio x unidad")
+    for i in range(len(carrito)):
+        print(carrito[i])
+    
+    print(servicios_contratados)
+
+    print("TOTAL A PAGAR: $", subtotal)
+    
+    matriz.append([numero_factura[venta], datos_cliente[0], datos_cliente[2], subtotal])
+
+    return matriz
+
+def factura_final(matriz):
+    print("Nro factura | Nombre cliente | DNI cliente | TOTAL A PAGAR")
+    for i in range(len(matriz)):
+        print(matriz[i])
 
 # PROGRAMA PRINCIPAL
+
 
 for venta in range(3):
     print("BIENVENIDO A CASA & MUEBLES - VENTA NRO:", venta + 1)
 
-    nombre, edad, dni, telefono, direccion = pedir_datos_cliente()
+    etiquetas_cliente, datos_cliente = pedir_datos_cliente()
 
     print()
     subtotal, carrito = procesar_compra()
 
     print()
-    subtotal, cantidad_envios, cantidad_instalaciones = servicios(subtotal)
+    servicios_contratados, subtotal, cantidad_envios, cantidad_instalaciones = servicios(subtotal)
     
     numero_factura = generar_numero_factura()
 
-    """
-    print(
-        "Disponemos de servicio de Envío a domicilio por un valor fijo de: $",
-        precio_envio,
-    )
-    print(
-        "Disponemos de servicio de Instalación premium por un valor fijo de: $",
-        precio_instalacion,
-    )
+    matriz = []
+    matriz_factura_final = generar_factura(venta, numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, matriz)
 
-    quiere_envio = input("¿Desea contratar el servicio de envío? (SI/NO): ").upper()
-    if quiere_envio == "SI":
-        monto_carrito = monto_carrito + precio_envio
-        votos_envio = votos_envio + 1
+    factura_final(matriz_factura_final)
 
-    quiere_instalacion = input(
-        "¿Desea contratar el servicio de instalación? (SI/NO): "
-    ).upper()
-    if quiere_instalacion == "SI":
-        monto_carrito = monto_carrito + precio_instalacion
-        votos_instalacion = votos_instalacion + 1
-
-    monto_final = round(monto_carrito, 2)
-    total_ventas = total_ventas + monto_final
-
-    # Máximo y mínimo manuales
-    if monto_final > monto_maximo:
-        monto_maximo = monto_final
-
-    if monto_final < monto_minimo:
-        monto_minimo = monto_final
-
-    num_factura = generar_factura(facturas)
-    facturas.append(num_factura)
-    #nombres.append(nombre_cliente)
-    #dnis.append(dni_cliente)
-    totales.append(monto_final)
-
-matriz = []
-for i in range(3):
-    fila = [facturas[i], nombres[i], dnis[i], totales[i]]
-    matriz.append(fila)
-
-# Burbujeo
-for i in range(len(matriz) - 1):
-    for j in range(len(matriz) - 1 - i):
-        if matriz[j] > matriz[j + 1]:
-            temporal = matriz[j]
-            matriz[j] = matriz[j + 1]
-            matriz[j + 1] = temporal
-
-print()
-print("----FACTURA----")
-for i in range(len(matriz)):
-    print(
-        "Factura:",
-        matriz[i][0],
-        " | Cliente:",
-        matriz[i][1],
-        " | DNI:",
-        matriz[i][2],
-        " | Total: $",
-        matriz[i][3],
-    )
-
-# Estadísticas finales
-promedio = round(total_ventas / 3, 2)
-porcentaje_envio = round((votos_envio / 3) * 100, 2)
-porcentaje_instal = round((votos_instalacion / 3) * 100, 2)
-
-print()
-print("--- REPORTES Y ESTADÍSTICAS GENERALES ---")
-print("Total Recaudado general:       $", total_ventas)
-print("Máximo monto recaudado:        $", monto_maximo)
-print("Mínimo monto recaudado:        $", monto_minimo)
-print("Promedio de recaudación:       $", promedio)
-print("Porcentaje de uso de Envíos:   ", porcentaje_envio, "%")
-print("Porcentaje de Instalaciones:   ", porcentaje_instal, "%")
-print()
-
-# Buscador secuencial de clientes
-print("---BUSCADOR DE CLIENTES---")
-"""
 buscar_otro = "SI"
 
 while buscar_otro == "SI":
