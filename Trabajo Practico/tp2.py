@@ -6,36 +6,6 @@
 
 import random
 
-productos = ["Sillas", "Mesas", "Roperos"]
-
-silla_materiales = ["Plastico", "Metal", "Madera"]
-silla_precio = [30000, 40000, 50000]
-silla_cantidad = [0, 0, 0]
-
-mesa_materiales = ["Melamina", "Roble", "Marmol"]
-mesa_precio = [80000, 90000, 100000]
-mesa_cantidad = [0, 0, 0]
-
-ropero_materiales = ["Melamina", "Plywood", "Roble"]
-ropero_precio = [200000, 220000, 250000]
-ropero_cantidad = [0, 0, 0]
-
-servicio_etiqueta = ["Envio: ", "Instalación: "]
-servicio_precio = [7000, 10000]
-precio_envio = 7000
-precio_instalacion = 10000
-
-etiquetas_negocio = ["Nombre: ", "Dirección: ", "CUIT: ", "Email: ", "Teléfono: "]
-datos_negocio = ["Casa & Muebles", "Palermo, Guatemala 5999" ,"30-61025233-4", "muebles@gmail.com", "1159536085"]
-
-# Listas principales
-facturas = []
-nombres = []
-dnis = []
-totales = []
-
-
-
 
 def presentacion():
     print("Número de grupo: 3")
@@ -72,17 +42,17 @@ def validar_nombre():
 
 def validar_edad():
     edad = int(input("Ingrese su edad: "))
-    while edad < 0 or edad > 110:
+    while edad < 0 or edad > 100:
         print("Error. Edad no valida.")
         edad = int(input("Ingrese su edad: "))
 
     confirmar = input("Tu edad es " + str(edad) + ". ¿Es correcto? (SI/NO): ").upper()
     while confirmar != "SI":
         edad = int(input("Ingrese su edad: "))
-        while edad < 0 or edad > 120:
+        while edad < 0 or edad > 100:
             print("Error. Edad no valida.")
             edad = int(input("Ingrese su edad: "))
-            confirmar = input("Tu edad es " + str(edad) + ". ¿Es correcto? (SI/NO): ").upper()
+        confirmar = input("Tu edad es " + str(edad) + ". ¿Es correcto? (SI/NO): ").upper()
 
     return str(edad)
 
@@ -140,15 +110,20 @@ def esValido(lista, n):
             return False
     return True
 
-def generar_numero_factura():
-    lista = []
-    while len(lista) < 3:
-        n = random.randint(1000, 9999)
-        if esValido(lista, n) == True:
-            lista.append(n)
-    return lista
+def generar_numero_factura(lista_facturas):
+    n = random.randint(1000, 9999)
+    valido = 0
+    if esValido(lista_facturas, n) == True:
+        valido = 1
 
-def servicios(subtotal):
+    while valido == 0:
+        n = random.randint(1000, 9999)
+        valido = 0
+        if esValido(lista_facturas, n) == True:
+            valido = 1
+    return n
+
+def servicios(subtotal, precio_envio, precio_instalacion):
     servicios_contratados = ""
     cantidad_envios = 0
     cantidad_instalaciones = 0
@@ -169,7 +144,18 @@ def servicios(subtotal):
     
     return servicios_contratados, subtotal, cantidad_envios, cantidad_instalaciones
 
-def procesar_compra():
+def procesar_compra(
+    productos,
+    silla_materiales,
+    silla_precio,
+    silla_cantidad,
+    mesa_materiales,
+    mesa_precio,
+    mesa_cantidad,
+    ropero_materiales,
+    ropero_precio,
+    ropero_cantidad,
+):
     comprar_mas = "SI"
     carrito = []
 
@@ -274,19 +260,19 @@ def procesar_compra():
 
     return subtotal, carrito
 
-def generar_factura(venta, numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, matriz):
-    print("---FACTURA FINAL---")
-    print("Número de factura:", numero_factura[venta])
+def generar_factura(numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, subtotal, matriz):
+    print("\n---FACTURA FINAL---")
+    print("Número de factura:", numero_factura)
 
-    print("DATOS DEL NEGOCIO")
+    print("\nDATOS DEL NEGOCIO")
     for i in range(len(datos_negocio)):
         print(etiquetas_negocio[i] + datos_negocio[i])
     
-    print("DATOS DEL CLIENTE")
+    print("\nDATOS DEL CLIENTE")
     for i in range(len(datos_cliente)):
         print(etiquetas_cliente[i] + datos_cliente[i])
 
-    print("PRODUCTOS COMPRADOS")
+    print("\nPRODUCTOS COMPRADOS")
     print("Producto | Material | Cantidad | Precio x unidad")
     for i in range(len(carrito)):
         print(carrito[i])
@@ -295,7 +281,7 @@ def generar_factura(venta, numero_factura, etiquetas_negocio, datos_negocio, eti
 
     print("TOTAL A PAGAR: $", subtotal)
     
-    matriz.append([numero_factura[venta], datos_cliente[0], datos_cliente[2], subtotal])
+    matriz.append([numero_factura, datos_cliente[0], datos_cliente[2], subtotal])
 
     return matriz
 
@@ -304,54 +290,151 @@ def factura_final(matriz):
     for i in range(len(matriz)):
         print(matriz[i])
 
+def bubble_sort(lista):
+    for i in range(len(lista)):
+        for j in range(len(lista) - i - 1):
+            if lista[j] > lista[j + 1]:
+                lista[j], lista[j + 1] = lista[j + 1], lista[j]
+
+    return lista
+
+
+def calcular_estadisticas(totales, contador_envio, contador_instalacion):
+    total_recaudado = 0
+    monto_maximo = 0
+    monto_minimo = 999999999
+
+    for i in range(len(totales)):
+        total_recaudado = total_recaudado + totales[i]
+        if totales[i] > monto_maximo:
+            monto_maximo = totales[i]
+        if totales[i] < monto_minimo:
+            monto_minimo = totales[i]
+
+    promedio = total_recaudado / len(totales)
+    porcentaje_envio = (contador_envio * 100) / len(totales)
+    porcentaje_instalacion = (contador_instalacion * 100) / len(totales)
+
+    return total_recaudado, monto_maximo, monto_minimo, promedio, porcentaje_envio, porcentaje_instalacion
+
+
+def buscar_cliente_lineal(dnis, nombres, facturas, totales):
+    print()
+    print("--- BUSCADOR DE CLIENTES ---")
+    seguir_busqueda = "SI"
+
+    while seguir_busqueda == "SI":
+        dni_buscar = input("Ingrese un DNI para buscar al cliente: ")
+        indice = 0
+        encontrado = 0
+
+        while indice < len(dnis) and encontrado == 0:
+            if dnis[indice] == dni_buscar:
+                encontrado = 1
+            else:
+                indice = indice + 1
+
+        if encontrado == 1:
+            print("\nCliente encontrado:")
+            print("Nombre:", nombres[indice])
+            print("DNI:", dnis[indice])
+            print("Factura:", facturas[indice])
+            print("Total facturado: $", totales[indice])
+        else:
+            print("El DNI no coincide con ningún cliente. Vuelva a intentar.")
+
+        seguir_busqueda = input("\n¿Desea buscar otro cliente? (SI/NO): ").upper()
+
+
 # PROGRAMA PRINCIPAL
 
+productos = ["Sillas", "Mesas", "Roperos"]
+
+silla_materiales = ["Plastico", "Metal", "Madera"]
+silla_precio = [30000, 40000, 50000]
+silla_cantidad = [0, 0, 0]
+
+mesa_materiales = ["Melamina", "Roble", "Marmol"]
+mesa_precio = [80000, 90000, 100000]
+mesa_cantidad = [0, 0, 0]
+
+ropero_materiales = ["Melamina", "Plywood", "Roble"]
+ropero_precio = [200000, 220000, 250000]
+ropero_cantidad = [0, 0, 0]
+
+precio_envio = 7000
+precio_instalacion = 10000
+
+etiquetas_negocio = ["Nombre: ", "Dirección: ", "CUIT: ", "Email: ", "Teléfono: "]
+datos_negocio = ["Casa & Muebles", "Palermo, Guatemala 5999" ,"30-61025233-4", "muebles@gmail.com", "1159536085"]
+
+# Listas principales
+facturas = []
+nombres = []
+dnis = []
+totales = []
+contador_envio = 0
+contador_instalacion = 0
 
 for venta in range(3):
-    print("BIENVENIDO A CASA & MUEBLES - VENTA NRO:", venta + 1)
+    print("\nBIENVENIDO A CASA & MUEBLES - VENTA NRO:", venta + 1)
 
     etiquetas_cliente, datos_cliente = pedir_datos_cliente()
 
     print()
-    subtotal, carrito = procesar_compra()
+    subtotal, carrito = procesar_compra(
+        productos,
+        silla_materiales,
+        silla_precio,
+        silla_cantidad,
+        mesa_materiales,
+        mesa_precio,
+        mesa_cantidad,
+        ropero_materiales,
+        ropero_precio,
+        ropero_cantidad,
+    )
 
     print()
-    servicios_contratados, subtotal, cantidad_envios, cantidad_instalaciones = servicios(subtotal)
+    servicios_contratados, subtotal, cantidad_envios, cantidad_instalaciones = servicios(
+        subtotal, precio_envio, precio_instalacion
+    )
+    contador_envio = contador_envio + cantidad_envios
+    contador_instalacion = contador_instalacion + cantidad_instalaciones
     
-    numero_factura = generar_numero_factura()
+    numero_factura = generar_numero_factura(facturas)
 
     matriz = []
-    matriz_factura_final = generar_factura(venta, numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, matriz)
+    matriz_factura_final = generar_factura(numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, subtotal, matriz)
 
-    factura_final(matriz_factura_final)
+    facturas.append(numero_factura)
+    nombres.append(datos_cliente[0])
+    dnis.append(datos_cliente[2])
+    totales.append(subtotal)
 
-buscar_otro = "SI"
+matriz_final = []
+for i in range(len(facturas)):
+    matriz_final.append([facturas[i], nombres[i], dnis[i], totales[i]])
 
-while buscar_otro == "SI":
-    exito_busqueda = 0
+bubble_sort(matriz_final)
 
-    while exito_busqueda == 0:
-        entrada_dni = input("Ingrese el DNI del cliente para verificar su registro: ")
-        indice = -1
+print()
+print("--- MATRIZ FINAL ORDENADA POR NÚMERO DE FACTURA ---")
+factura_final(matriz_final)
 
-        for i in range(len(dnis)):
-            if dnis[i] == entrada_dni:
-                exito_busqueda = 1
-                indice = i
+total_recaudado, monto_maximo, monto_minimo, promedio, porcentaje_envio, porcentaje_instalacion = calcular_estadisticas(
+    totales, contador_envio, contador_instalacion
+)
 
-        if exito_busqueda == 1:
-            print("¡Cliente localizado con éxito! Ficha de compra:")
-            print("Nombre:", nombres[indice])
-            print("DNI:", dnis[indice])
-            print("Factura Asignada:", facturas[indice])
-            print("Total Facturado: $", totales[indice])
-        else:
-            print(
-                "El DNI ingresado no coincide con ninguna de nuestras 3 ventas. Vuelva a intentar."
-            )
+print()
+print("--- REPORTES Y ESTADÍSTICAS GENERALES ---")
+print("Total recaudado: $", total_recaudado)
+print("Máximo monto recaudado: $", monto_maximo)
+print("Mínimo monto recaudado: $", monto_minimo)
+print("Promedio de recaudación: $", round(promedio, 2))
+print("Porcentaje de uso de envío:", round(porcentaje_envio, 2), "%")
+print("Porcentaje de uso de instalación:", round(porcentaje_instalacion, 2), "%")
 
-    buscar_otro = input("\n¿Desea buscar a otro cliente? (SI/NO): ").upper()
+buscar_cliente_lineal(dnis, nombres, facturas, totales)
+
 print("¡Gracias por su compra!")
-
-if len(facturas) > 0:
-    facturas.pop()
