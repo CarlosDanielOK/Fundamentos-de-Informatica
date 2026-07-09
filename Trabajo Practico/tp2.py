@@ -84,9 +84,7 @@ def validar_telefono():
         while len(telefono) != 10:
             print("ERROR. El número de teléfono debe tener 10 dígitos.")
             telefono = input("Ingrese su número de teléfono: ")
-        confirmar = input(
-            "Tu número es " + telefono + ". ¿Es correcto? (SI/NO): "
-        ).upper()
+        confirmar = input("Tu número es " + telefono + ". ¿Es correcto? (SI/NO): ").upper()
 
     return telefono
 
