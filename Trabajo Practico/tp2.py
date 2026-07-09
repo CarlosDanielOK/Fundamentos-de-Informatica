@@ -33,9 +33,7 @@ def validar_nombre():
     confirmar = input("Tu nombre es " + nombre + ". ¿Es correcto? (SI/NO): ").upper()
     while confirmar != "SI":
         nombre = input("Ingrese su nombre y apellido: ").title()
-        confirmar = input(
-            "Tu nombre es " + nombre + ". ¿Es correcto? (SI/NO): "
-        ).upper()
+        confirmar = input("Tu nombre es " + nombre + ". ¿Es correcto? (SI/NO): ").upper()
 
     return nombre
 
