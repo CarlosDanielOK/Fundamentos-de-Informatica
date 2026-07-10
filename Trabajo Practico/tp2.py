@@ -277,8 +277,9 @@ def generar_factura(numero_factura, etiquetas_negocio, datos_negocio, etiquetas_
 
     print("TOTAL A PAGAR: $", subtotal)
     
+    # matriz no sirve para nada, se crea una lista con un solo elemento siempre. El correcto esta en la linea 412
     matriz.append([numero_factura, datos_cliente[0], datos_cliente[2], subtotal])
-
+    # este return tampoco sirve para nada
     return matriz
 
 def factura_final(matriz):
@@ -400,7 +401,7 @@ for venta in range(3):
     
     numero_factura = generar_numero_factura(facturas)
 
-    matriz = [] # NO SIRVE PORQUE NO CUMPLE NINGUN PROPOSITO, SE CREA UNA LISTA VACIA EN CADA ITERACION
+    matriz = [] # matriz y matriz_factura_final no sirven para nada. EL correcto esta en la linea 412, donde se crea matriz_final
     matriz_factura_final = generar_factura(numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, subtotal, matriz)
 
     facturas.append(numero_factura)
