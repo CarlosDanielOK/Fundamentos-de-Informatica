@@ -9,7 +9,7 @@ def bubble_sort(l1, l2, l3, l4):
     return l1, l2, l3, l4
 
 facturas = [4521, 7890, 3300]
-nombres  = ["Juan Perez", "Ana Lopez", "Marco Diaz"]
+nombres  = ["Juan Perez", "Ana Lopez", "Naruto Uzumaki"]
 dnis     = ["12345678", "87654321", "11223344"]
 totales  = [70000, 120000, 95000]
 
