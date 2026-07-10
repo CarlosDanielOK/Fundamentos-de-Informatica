@@ -400,7 +400,7 @@ for venta in range(3):
     
     numero_factura = generar_numero_factura(facturas)
 
-    matriz = []
+    matriz = [] # NO SIRVE PORQUE NO CUMPLE NINGUN PROPOSITO, SE CREA UNA LISTA VACIA EN CADA ITERACION
     matriz_factura_final = generar_factura(numero_factura, etiquetas_negocio, datos_negocio, etiquetas_cliente, datos_cliente, carrito, servicios_contratados, subtotal, matriz)
 
     facturas.append(numero_factura)
